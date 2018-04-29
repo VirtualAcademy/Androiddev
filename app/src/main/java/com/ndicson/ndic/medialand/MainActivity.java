@@ -1,5 +1,6 @@
 package com.ndicson.ndic.medialand;
 
+import android.app.ProgressDialog;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.support.v4.widget.CircularProgressDrawable;
@@ -11,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.VideoView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-    CircularProgressDrawable mprogress;
+    ProgressDialog mprogress;
     VideoView videoView;
     ImageButton btnplaypause;
 
@@ -30,8 +31,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        mprogress = new CircularProgressDrawable(MainActivity.this);
-        mprogress.start();
+        mprogress = new ProgressDialog(MainActivity.this);
+        mprogress.setMessage("Loading...");
+        mprogress.setCanceledOnTouchOutside(false);
+        mprogress.show();
 
         try
         {
@@ -41,13 +44,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
                     public void onCompletion(MediaPlayer mp) {
-                        btnplaypause.setImageResource(R.drawable.ic_play);
+                        btnplaypause.setImageResource(R.mipmap.ic_play);
                     }
                 });
             }
             else {
                 videoView.pause();
-                btnplaypause.setImageResource(R.drawable.ic_play);
+                btnplaypause.setImageResource(R.mipmap.ic_play);
             }
         }
         catch (Exception e){
@@ -55,13 +58,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         videoView.requestFocus();
+
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
-                mprogress.stop();
+                mprogress.dismiss();
                 mp.setLooping(true);
                 videoView.start();
-                btnplaypause.setImageResource(R.drawable.ic_pause);
+                btnplaypause.setImageResource(R.mipmap.ic_pause);
 
             }
         });
