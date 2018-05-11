@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     VideoView videoView;
     ImageButton btnplaypause;
 
-    private final String videourl = "https://ak2.picdn.net/shutterstock/videos/21549772/preview/stock-footage-gingerbread-man-dancers-d-animation-of-funny-hot-and-sweet-cookie-boy-dancing-for-holiday-and.mp4";
+    private final String videourl = "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4";//"https://ak2.picdn.net/shutterstock/videos/21549772/preview/stock-footage-gingerbread-man-dancers-d-animation-of-funny-hot-and-sweet-cookie-boy-dancing-for-holiday-and.mp4";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

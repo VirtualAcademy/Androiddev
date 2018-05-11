@@ -62,55 +62,50 @@
                 android:layout_gravity="top"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:contentDescription="@string/description" />
+                android:background="@android:color/transparent"/>
 
         </LinearLayout>
-        <LinearLayout
+
+        <RelativeLayout
+            android:background="@color/colorAccent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <RelativeLayout
+            <ImageButton
+                android:layout_toLeftOf="@+id/btn_backward"
+                android:id="@+id/btn_skipback"
                 android:background="@color/colorAccent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <ImageButton
-                    android:layout_toLeftOf="@+id/btn_backward"
-                    android:id="@+id/btn_skipback"
-                    android:background="@color/colorAccent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_skipback"/>
-                <ImageButton
-                    android:layout_toLeftOf="@+id/btn_play_pause"
-                    android:id="@+id/btn_backward"
-                    android:background="@color/colorAccent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_backward"/>
-                <ImageButton
-                    android:id="@+id/btn_play_pause"
-                    android:layout_centerInParent="true"
-                    android:background="@color/colorAccent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_play"/>
-                <ImageButton
-                    android:id="@+id/btn_forward"
-                    android:layout_toRightOf="@+id/btn_play_pause"
-                    android:style="@android:style/MediaButton.Next"
-                    android:background="@color/colorAccent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_forward"/>
-                <ImageButton
-                    android:id="@+id/btn_skipfwd"
-                    android:layout_toRightOf="@+id/btn_forward"
-                    android:background="@color/colorAccent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_skipfwd"/>
-            </RelativeLayout>
-        </LinearLayout>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_skipback"/>
+            <ImageButton
+                android:layout_toLeftOf="@+id/btn_play_pause"
+                android:id="@+id/btn_backward"
+                android:background="@color/colorAccent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_backward"/>
+            <ImageButton
+                android:id="@+id/btn_play_pause"
+                android:layout_centerInParent="true"
+                android:background="@color/colorAccent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_play"/>
+            <ImageButton
+                android:id="@+id/btn_forward"
+                android:layout_toRightOf="@+id/btn_play_pause"
+                android:background="@color/colorAccent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_forward"/>
+            <ImageButton
+                android:id="@+id/btn_skipfwd"
+                android:layout_toRightOf="@+id/btn_forward"
+                android:background="@color/colorAccent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_skipfwd"/>
+        </RelativeLayout>
 
 
     </LinearLayout>
