@@ -61,6 +61,14 @@ public class VideoControllerView extends FrameLayout implements VideoGestureList
     @DrawableRes
     private int mPlayIcon;
     @DrawableRes
+    private int mFastFwdIcon;
+    @DrawableRes
+    private int mRewindIcon;
+    @DrawableRes
+    private int mNextIcon;
+    @DrawableRes
+    private int mPrevIcon;
+    @DrawableRes
     private int mShrinkIcon;
     @DrawableRes
     private int mStretchIcon;
@@ -102,6 +110,10 @@ public class VideoControllerView extends FrameLayout implements VideoGestureList
         this.mExitIcon = builder.exitIcon;
         this.mPauseIcon = builder.pauseIcon;
         this.mPlayIcon = builder.playIcon;
+        this.mFastFwdIcon = builder.fastfwdIcon;
+        this.mRewindIcon = builder.rewindIcon;
+        this.mNextIcon = builder.nextIcon;
+        this.mPrevIcon = builder.prevIcon;
         this.mStretchIcon = builder.stretchIcon;
         this.mShrinkIcon = builder.shrinkIcon;
         this.mSurfaceView = builder.surfaceView;
@@ -132,6 +144,14 @@ public class VideoControllerView extends FrameLayout implements VideoGestureList
         private int pauseIcon = R.drawable.ic_media_pause;
         @DrawableRes
         private int playIcon = R.drawable.ic_media_play;
+        @DrawableRes
+        private int fastfwdIcon = R.mipmap.ic_forward;
+        @DrawableRes
+        private int rewindIcon = R.mipmap.ic_backward;
+        @DrawableRes
+        private int prevIcon = R.mipmap.ic_skipback;
+        @DrawableRes
+        private int nextIcon = R.mipmap.ic_skipfwd;
         @DrawableRes
         private int shrinkIcon = R.drawable.ic_media_fullscreen_shrink;
         @DrawableRes
@@ -175,6 +195,26 @@ public class VideoControllerView extends FrameLayout implements VideoGestureList
 
         public Builder playIcon(@DrawableRes int playIcon) {
             this.playIcon = playIcon;
+            return this;
+        }
+
+        public Builder prevIcon(@DrawableRes int prevIcon) {
+            this.prevIcon = prevIcon;
+            return this;
+        }
+
+        public Builder rewindIcon(@DrawableRes int rewindIcon) {
+            this.rewindIcon = rewindIcon;
+            return this;
+        }
+
+        public Builder fastfwdIcon(@DrawableRes int fastfwdIcon) {
+            this.fastfwdIcon = fastfwdIcon;
+            return this;
+        }
+
+        public Builder nextIcon(@DrawableRes int nextIcon) {
+            this.nextIcon = nextIcon;
             return this;
         }
 
@@ -282,15 +322,35 @@ public class VideoControllerView extends FrameLayout implements VideoGestureList
         //bottom layout
         mBottomLayout = mRootView.findViewById(R.id.layout_bottom);
         mPauseButton = (ImageButton) mRootView.findViewById(R.id.btn_play_pause);
-        mFastFwdButton = (ImageButton) mRootView.findViewById(R.id.btn_forward);
-        mRewindButton = (ImageButton) mRootView.findViewById(R.id.btn_backward);
-        mPrevious = (ImageButton) mRootView.findViewById(R.id.btn_skipback);
-        mNext = (ImageButton) mRootView.findViewById(R.id.btn_skipfwd);
-
         if (mPauseButton != null) {
             mPauseButton.requestFocus();
             mPauseButton.setOnClickListener(mPauseListener);
         }
+
+        mFastFwdButton = (ImageButton) mRootView.findViewById(R.id.btn_forward);
+        if (mFastFwdButton != null) {
+            mFastFwdButton.requestFocus();
+            mFastFwdButton.setOnClickListener(mFastForwardListener);
+        }
+
+        mRewindButton = (ImageButton) mRootView.findViewById(R.id.btn_backward);
+        if (mRewindButton != null) {
+            mRewindButton.requestFocus();
+            mRewindButton.setOnClickListener(mRewindListener);
+        }
+
+        mPrevious = (ImageButton) mRootView.findViewById(R.id.btn_skipback);
+        if (mPrevious != null) {
+            mPrevious.requestFocus();
+            mPrevious.setOnClickListener(mPrevListener);
+        }
+
+        mNext = (ImageButton) mRootView.findViewById(R.id.btn_skipfwd);
+        if (mNext != null) {
+            mNext.requestFocus();
+            mNext.setOnClickListener(mNextListener);
+        }
+
 
         mFullscreenButton = (ImageButton) mRootView.findViewById(R.id.bottom_fullscreen);
         if (mFullscreenButton != null) {
@@ -605,6 +665,47 @@ public class VideoControllerView extends FrameLayout implements VideoGestureList
     };
 
     /**
+     * set fastforward click listener
+     */
+    private View.OnClickListener mFastForwardListener = new View.OnClickListener() {
+        private int numclicks =0;
+        public void onClick(View v) {
+            numclicks+=1;
+            speedChange(numclicks);
+        }
+    };
+
+    /**
+     * set Rewind Listener click listener
+     */
+    private View.OnClickListener mRewindListener = new View.OnClickListener() {
+        private int numclicks =0;
+        public void onClick(View v) {
+            numclicks-=1;
+            speedChange(numclicks);
+        }
+    };
+
+
+    /**
+     * set Skip to Previous Listener click listener
+     */
+    private View.OnClickListener mPrevListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            seekBackWard();
+        }
+    };
+
+    /**
+     * set Skip to Next Listener click listener
+     */
+    private View.OnClickListener mNextListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            seekForWard();
+        }
+    };
+
+    /**
      * set full screen click listener
      */
     private View.OnClickListener mFullscreenListener = new View.OnClickListener() {
@@ -696,6 +797,19 @@ public class VideoControllerView extends FrameLayout implements VideoGestureList
 
         int pos = mMediaPlayerControlListener.getCurrentPosition();
         pos += PROGRESS_SEEK;
+        mMediaPlayerControlListener.seekTo(pos);
+        setSeekProgress();
+
+        show();
+    }
+
+    private void speedChange(int speedchanged) {
+        if (mMediaPlayerControlListener == null) {
+            return;
+        }
+
+        int pos = mMediaPlayerControlListener.getCurrentPosition();
+        pos += PROGRESS_SEEK*speedchanged;
         mMediaPlayerControlListener.seekTo(pos);
         setSeekProgress();
 
